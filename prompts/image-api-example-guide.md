@@ -1,4 +1,27 @@
-Image api example guide:
+### The Template Specific Prompts
+template-01-Prompt:
+Make this product in the picture into an ad poster that is super-premium, creative, dramatic lighting, product focused, photoshop manipulation style
+
+template-02-Prompt:
+Create a 1/7 scale commercialized miniature version of the product in the picture, in a realistic style, in a real environment. The miniature is placed on a computer desk. The miniature has a round transparent acrylic base, with no text on the base. The content on the computer screen is a 3D modeling process of this miniature. Next to the computer screen is a toy packaging box, designed in a style reminiscent of high-quality collectible miniature, printed with original artwork. The packaging features two-dimensional flat illustrations
+
+template-03-Prompt:
+Make this product in the picture into an retro style ad poster that is carries a vibe of retro era, creative, product focused
+
+template-04-Prompt:
+A high-resolution advertising photograph of a realistic, miniature version of the product in the picture held delicately between a person's thumb and index finger.  clean and white background, studio lighting, soft shadows. The hand is well-groomed, natural skin tone, and positioned to highlight the product’s shape and details. The product appears extremely small but hyper-detailed and brand-accurate, centered in the frame with a shallow depth of field. Emulates luxury product photography and minimalist commercial style.
+
+
+### Template Specific api example guide:
+
+const dynamictemplatePrompt = template-01-Prompt
+
+if user inputs any value on Additional Instructions Input field,
+then:
+const additionalInput = "Additional Instructions: " + here will be the value of Additional Instructions Input field" (e.g Prompt+ Input filed value)
+if user dont inputs any value on Additional Instructions Input field,
+then:
+const additionalInput = null (e.g Prompt+)
 
 
 import {
@@ -39,14 +62,7 @@ async function main() {
           },
         },
         {
-          inlineData: {
-            data: `/9j/2wBDAAAAAAAAP/2Q== (Image will sent to api with a converted Base64 String) - This is any other additional image uploaded by user e.g. Background `,
-            mimeType: `image/jpeg`,
-          },
-        },
-
-        {
-          text: `Weite Your Final Text Prompt Here`,
+          text: `dynamictemplatePrompt+additionalInput (Dynamic template specific Prompt)`,
         },
       ],
     },

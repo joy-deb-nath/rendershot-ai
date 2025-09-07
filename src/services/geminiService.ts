@@ -36,6 +36,101 @@ export function isGeminiInitialized(): boolean {
 
 
 
+// --- Image normalization helpers ---
+async function convertDataUrlToPng(dataUrl: string): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const image = new Image();
+    image.onload = () => {
+      try {
+        const canvas = document.createElement('canvas');
+        canvas.width = image.width;
+        canvas.height = image.height;
+        const ctx = canvas.getContext('2d');
+        if (!ctx) {
+          reject(new Error('Canvas 2D context not available'));
+          return;
+        }
+        ctx.drawImage(image, 0, 0);
+        const pngDataUrl = canvas.toDataURL('image/png');
+        resolve(pngDataUrl);
+      } catch (err) {
+        reject(err);
+      }
+    };
+    image.onerror = () => reject(new Error('Failed to load image for conversion'));
+    image.src = dataUrl;
+  });
+}
+
+async function ensureJpegOrPngDataUrl(dataUrl: string): Promise<string> {
+  const m = dataUrl.match(/^data:(image\/[^;]+);base64,/);
+  const mime = m?.[1] || '';
+  if (mime === 'image/jpeg' || mime === 'image/png') {
+    return dataUrl;
+  }
+  // Convert any other image type to PNG
+  return await convertDataUrlToPng(dataUrl);
+}
+
+/**
+ * Generates an image for the Template page using the streaming API as per image-api-example-guide.md
+ * @param imageDataUrl Source image as data URL (e.g., 'data:image/png;base64,...')
+ * @param dynamicPrompt Final prompt string built as baseTemplatePrompt + optional additional input
+ * @returns Promise resolving to a base64 data URL of the last streamed image chunk
+ */
+export async function generateTemplateImage(imageDataUrl: string, dynamicPrompt: string): Promise<string> {
+  if (!ai) {
+    throw new Error("Gemini API not initialized. Please provide your API key first.")
+  }
+
+  const normalizedDataUrl = await ensureJpegOrPngDataUrl(imageDataUrl);
+  const match = normalizedDataUrl.match(/^data:(image\/\w+);base64,(.*)$/);
+  if (!match) {
+    throw new Error("Invalid image data URL format. Expected 'data:image/...;base64,...'");
+  }
+  const [, mimeType, base64Data] = match;
+
+  const config = {
+    responseModalities: ["IMAGE", "TEXT"],
+  } as const;
+
+  const contents = [
+    {
+      role: "user" as const,
+      parts: [
+        {
+          inlineData: {
+            data: base64Data,
+            mimeType,
+          },
+        },
+        { text: dynamicPrompt },
+      ],
+    },
+  ];
+
+  const stream = await ai.models.generateContentStream({
+    model: "gemini-2.5-flash-image-preview",
+    config,
+    contents,
+  });
+
+  let lastImageDataUrl: string | null = null;
+  for await (const chunk of stream) {
+    const inlineData = chunk.candidates?.[0]?.content?.parts?.[0]?.inlineData;
+    if (inlineData?.data && inlineData?.mimeType) {
+      lastImageDataUrl = `data:${inlineData.mimeType};base64,${inlineData.data}`;
+    }
+  }
+
+  if (!lastImageDataUrl) {
+    const text = (await stream.response)?.text || "";
+    throw new Error(`The AI model responded with no image. ${text ? `Details: ${text}` : ""}`);
+  }
+
+  return lastImageDataUrl;
+}
+
 /**
  * Logs the prompt data to console and optionally to server
  * @param settings The user's selected settings
@@ -210,7 +305,8 @@ async function callGeminiWithRetryMultipleImages(contentParts: any[]): Promise<G
  * @returns A promise that resolves to a base64-encoded image data URL of the generated image.
  */
 export async function generateDecadeImage(imageDataUrl: string, prompt: string): Promise<string> {
-  const match = imageDataUrl.match(/^data:(image\/\w+);base64,(.*)$/);
+  const normalizedDataUrl = await ensureJpegOrPngDataUrl(imageDataUrl);
+  const match = normalizedDataUrl.match(/^data:(image\/\w+);base64,(.*)$/);
   if (!match) {
     throw new Error("Invalid image data URL format. Expected 'data:image/...;base64,...'");
   }
@@ -487,7 +583,8 @@ The final image must be of ultra-high resolution, with authentic, physically acc
 export async function generateStudioImage(imageDataUrl: string, prompt: string | any, studioType?: string, backgroundImageUrl?: string): Promise<string> {
   console.log("🚀 generateStudioImage called with studioType:", studioType, "prompt type:", typeof prompt, "background:", !!backgroundImageUrl);
   
-  const match = imageDataUrl.match(/^data:(image\/\w+);base64,(.*)$/);
+  const normalizedDataUrl = await ensureJpegOrPngDataUrl(imageDataUrl);
+  const match = normalizedDataUrl.match(/^data:(image\/\w+);base64,(.*)$/);
   if (!match) {
     throw new Error("Invalid image data URL format. Expected 'data:image/...;base64,...'");
   }
@@ -502,7 +599,8 @@ export async function generateStudioImage(imageDataUrl: string, prompt: string |
 
   // Add background image if provided
   if (backgroundImageUrl) {
-    const bgMatch = backgroundImageUrl.match(/^data:(image\/\w+);base64,(.*)$/);
+    const normalizedBgUrl = await ensureJpegOrPngDataUrl(backgroundImageUrl);
+    const bgMatch = normalizedBgUrl.match(/^data:(image\/\w+);base64,(.*)$/);
     if (bgMatch) {
       const [, bgMimeType, bgBase64Data] = bgMatch;
       const backgroundImagePart = {

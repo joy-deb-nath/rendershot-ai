@@ -2,6 +2,9 @@ import { useState, useCallback } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Upload, X } from "lucide-react";
+import demoProduct1 from "@/assets/demo-product-1.jpg";
+import demoProduct2 from "@/assets/demo-product-2.jpg";
+import demoProduct3 from "@/assets/demo-product-3.jpg";
 
 // Helper function to convert File to base64 data URL
 const fileToBase64 = (file: File): Promise<string> => {
@@ -66,9 +69,9 @@ const ImageUpload = ({ onImageUpload, uploadedImage }: ImageUploadProps) => {
   };
 
   const demoImages = [
-    { id: 1, url: "/demo1.jpg", alt: "Demo Product 1" },
-    { id: 2, url: "/demo2.jpg", alt: "Demo Product 2" },
-    { id: 3, url: "/demo3.jpg", alt: "Demo Product 3" }
+    { id: 1, url: demoProduct1, alt: "Demo Product 1" },
+    { id: 2, url: demoProduct2, alt: "Demo Product 2" },
+    { id: 3, url: demoProduct3, alt: "Demo Product 3" }
   ];
 
   return (
@@ -141,8 +144,8 @@ const ImageUpload = ({ onImageUpload, uploadedImage }: ImageUploadProps) => {
                 onClick={() => setPreviewUrl(demo.url)}
               >
                 <CardContent className="p-3">
-                  <div className="w-full h-20 bg-muted rounded flex items-center justify-center">
-                    <span className="text-xs text-muted-foreground">Demo {demo.id}</span>
+                  <div className="w-full h-20 bg-muted rounded overflow-hidden">
+                    <img src={demo.url} alt={demo.alt} className="w-full h-full object-cover" />
                   </div>
                 </CardContent>
               </Card>

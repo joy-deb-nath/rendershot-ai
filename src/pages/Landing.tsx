@@ -41,8 +41,8 @@ const Landing = () => {
       <nav className="border-b border-border/40 backdrop-blur-sm bg-background/80 sticky top-0 z-50">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <Camera className="h-8 w-8 text-primary" />
-            <span className="text-xl font-bold text-foreground">RenderCam AI</span>
+            <img src="/applogo.png" alt="RenderShot AI" className="h-8 w-8 rounded" />
+            <span className="text-xl font-bold text-foreground">RenderShot AI</span>
           </div>
           <EnhancedButton 
             variant="outline" 
@@ -96,7 +96,7 @@ const Landing = () => {
               <div className="absolute inset-0 bg-gradient-premium rounded-full blur-3xl opacity-20 scale-75" />
               <img 
                 src={heroImage} 
-                alt="RenderCam AI Hero" 
+                alt="RenderShot AI Hero" 
                 className="relative z-10 w-full h-auto rounded-2xl shadow-premium"
               />
             </div>
@@ -142,7 +142,7 @@ const Landing = () => {
             <div className="space-y-8">
               <div className="space-y-4">
                 <h2 className="text-4xl font-bold text-foreground">
-                  Why Choose RenderCam AI?
+                  Why Choose RenderShot AI?
                 </h2>
                 <p className="text-xl text-muted-foreground">
                   Stop spending thousands on product photography. Create professional visuals 
@@ -196,7 +196,7 @@ const Landing = () => {
               Ready to Transform Your Product Photography?
             </h2>
             <p className="text-xl text-muted-foreground">
-              Join thousands of businesses already using RenderCam AI to create stunning product visuals.
+              Join thousands of businesses already using RenderShot AI to create stunning product visuals.
             </p>
             <EnhancedButton 
               variant="hero" 
@@ -217,10 +217,10 @@ const Landing = () => {
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <div className="flex items-center space-x-2">
               <Camera className="h-6 w-6 text-primary" />
-              <span className="text-lg font-semibold text-foreground">RenderCam AI</span>
+              <span className="text-lg font-semibold text-foreground">RenderShot AI</span>
             </div>
             <p className="text-muted-foreground">
-              © 2024 RenderCam AI. All rights reserved.
+              © 2024 RenderShot AI. All rights reserved.
             </p>
           </div>
         </div>

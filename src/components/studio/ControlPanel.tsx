@@ -107,7 +107,13 @@ const ControlPanel = ({ studioType, onGenerate }: ControlPanelProps) => {
               {(settings.backgroundType === "studio" || settings.backgroundType === "outdoor") && (
                 <Select onValueChange={(value) => setSettings({...settings, backgroundStyle: value})}>
                   <SelectTrigger>
-                    <SelectValue placeholder={`Select ${settings.backgroundType} style`} />
+                    <SelectValue placeholder={
+                      settings.backgroundType === "outdoor"
+                        ? "Select outdoor theme"
+                        : (settings.backgroundType === "studio" && studioType === "ugc-style")
+                          ? "Select indoor theme"
+                          : `Select ${settings.backgroundType} style`
+                    } />
                   </SelectTrigger>
                   <SelectContent>
                     {settings.backgroundType === "studio" && studioType !== "ugc-style" && (

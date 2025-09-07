@@ -1,7 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { EnhancedButton } from "@/components/ui/button-variants";
-import { Camera, Users, Sparkles, LogOut, Palette, Image, Zap } from "lucide-react";
+import { Camera, Users, Sparkles, LayoutDashboard } from "lucide-react";
+import thumb01 from "@/assets/template_thumbnail_01.jpg";
+import thumb02 from "@/assets/template_thumbnail_02.jpg";
+import thumb03 from "@/assets/template_thumbnail_03.jpg";
+import thumb04 from "@/assets/template_thumbnail_04.jpg";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -32,47 +35,57 @@ const Dashboard = () => {
 
   const templates = [
     {
-      id: "template-1",
-      title: "Minimalist Studio",
-      description: "Clean white background with professional lighting",
-      preview: "##########"
+      id: "ad-poster",
+      title: "Ad Poster",
+      description: "Premium ad poster with dramatic lighting and polished Photoshop compositing.",
+      preview: thumb01
     },
     {
-      id: "template-2", 
-      title: "Lifestyle Context",
-      description: "Natural home environment with warm lighting",
-      preview: "##########"
+      id: "miniature-on-desk", 
+      title: "Miniature on Desk",
+      description: "Realistic 1/7‑scale miniature on a desk with modeling screen and packaging.",
+      preview: thumb02
     },
     {
-      id: "template-3",
-      title: "Editorial Fashion",
-      description: "High-end magazine style with dramatic shadows",
-      preview: "##########"
+      id: "retro-ad-poster",
+      title: "Retro Ad Poster",
+      description: "Authentic retro‑era ad poster with the product front and center.",
+      preview: thumb03
     },
     {
-      id: "template-4",
-      title: "E-commerce Hero",
-      description: "Perfect for product listings and catalogs",
-      preview: "##########"
+      id: "miniature-in-hand",
+      title: "Miniature in Hand",
+      description: "Studio photo of a hyper‑detailed miniature between fingers on white.",
+      preview: thumb04
     }
   ];
 
   return (
     <div className="min-h-screen bg-background flex">
       {/* Sidebar */}
-      <div className="w-64 bg-card border-r border-border/40 p-6">
-        <div className="space-y-8">
+      <div className="w-64 bg-card border-r border-border/40 p-6 flex flex-col h-screen">
+        <div className="flex-1">
           {/* Logo */}
-          <div className="flex items-center space-x-2">
-            <Camera className="h-8 w-8 text-primary" />
-            <span className="text-xl font-bold text-foreground">RenderCam AI</span>
+          <div className="flex items-center space-x-2 mb-8">
+            <img src="/applogo.png" alt="RenderShot AI" className="h-8 w-8 rounded" />
+            <span className="text-xl font-bold text-foreground">RenderShot AI</span>
           </div>
 
           {/* Navigation */}
           <nav className="space-y-2">
-            <div className="text-sm font-medium text-muted-foreground mb-4">DASHBOARD</div>
-            
             <div className="space-y-6">
+              <div>
+                <div className="space-y-1">
+                  <button
+                    onClick={() => navigate('/dashboard')}
+                    className="w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-left hover:bg-accent/10 transition-colors bg-accent/5"
+                  >
+                    <LayoutDashboard className="h-4 w-4 text-primary" />
+                    <span className="text-sm text-foreground font-medium">Dashboard</span>
+                  </button>
+                </div>
+              </div>
+              
               <div>
                 <div className="text-sm font-medium text-muted-foreground mb-3">FEATURES</div>
                 <div className="space-y-1">
@@ -90,32 +103,22 @@ const Dashboard = () => {
               </div>
             </div>
           </nav>
-
-          {/* Logout */}
-          <div className="mt-auto pt-8">
-            <EnhancedButton 
-              variant="ghost" 
-              onClick={() => navigate('/')}
-              className="w-full justify-start text-muted-foreground hover:text-foreground"
-            >
-              <LogOut className="h-4 w-4 mr-3" />
-              Logout
-            </EnhancedButton>
-          </div>
         </div>
+
+        
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 p-8">
-        <div className="max-w-6xl mx-auto space-y-8">
+      <div className="flex-1 p-8 flex flex-col h-screen">
+        <div className="max-w-6xl mx-auto flex-1 flex flex-col">
           {/* Header */}
-          <div className="space-y-2">
+          <div className="space-y-2 mb-8">
             <h1 className="text-3xl font-bold text-foreground">Dashboard</h1>
             <p className="text-muted-foreground">Choose a feature or template to start creating amazing product visuals</p>
           </div>
 
           {/* Features Grid */}
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-3 gap-6 mb-8">
             {features.map((feature) => (
               <Card 
                 key={feature.id} 
@@ -135,78 +138,39 @@ const Dashboard = () => {
             ))}
           </div>
 
-          {/* Template Library */}
-          <div className="space-y-6">
-            <div className="space-y-2">
-              <h2 className="text-2xl font-bold text-foreground">Template Library</h2>
-              <p className="text-muted-foreground">Quick-start templates for instant results</p>
-            </div>
+          {/* Template Library - positioned at bottom */}
+          <div className="mt-auto">
+            <div className="space-y-6">
+              <div className="text-center">
+                <h2 className="text-2xl font-bold text-foreground">Template Library</h2>
+              </div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {templates.map((template) => (
-                <Card 
-                  key={template.id}
-                  className="cursor-pointer hover:shadow-card transition-all duration-300 hover:scale-105 bg-card border-border/40"
-                  onClick={() => navigate(`/dashboard/${template.id}`)}
-                >
-                  <CardHeader className="pb-3">
-                    <div className="w-full h-32 bg-muted rounded-lg flex items-center justify-center mb-3">
-                      <div className="text-4xl font-mono text-muted-foreground">{template.preview}</div>
+              <div className="grid md:grid-cols-2 gap-6">
+                {templates.map((template) => (
+                  <Card 
+                    key={template.id}
+                    className="cursor-pointer hover:shadow-card transition-all duration-300 hover:scale-105 bg-card border-border/40"
+                    onClick={() => navigate(`/template/${template.id}`)}
+                  >
+                    <div className="flex p-6">
+                      {/* Thumbnail - Left side */}
+                      <div className="w-40 aspect-video bg-muted rounded-lg overflow-hidden mr-4 flex-shrink-0">
+                        <img src={template.preview} alt={template.title}
+                          className="w-full h-full object-cover" />
+                      </div>
+                      
+                      {/* Details - Right side */}
+                      <div className="flex-1 min-w-0">
+                        <h3 className="text-lg font-semibold text-foreground mb-2">{template.title}</h3>
+                        <p className="text-sm text-muted-foreground leading-relaxed">{template.description}</p>
+                      </div>
                     </div>
-                    <CardTitle className="text-lg text-foreground">{template.title}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-sm text-muted-foreground">{template.description}</p>
-                  </CardContent>
-                </Card>
-              ))}
+                  </Card>
+                ))}
+              </div>
             </div>
           </div>
 
-          {/* Quick Stats */}
-          <div className="grid md:grid-cols-3 gap-6 mt-12">
-            <Card className="bg-gradient-card border-border/40">
-              <CardContent className="p-6">
-                <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
-                    <Image className="h-6 w-6 text-primary" />
-                  </div>
-                  <div>
-                    <div className="text-2xl font-bold text-foreground">0</div>
-                    <div className="text-sm text-muted-foreground">Images Generated</div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-            
-            <Card className="bg-gradient-card border-border/40">
-              <CardContent className="p-6">
-                <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center">
-                    <Palette className="h-6 w-6 text-accent" />
-                  </div>
-                  <div>
-                    <div className="text-2xl font-bold text-foreground">3</div>
-                    <div className="text-sm text-muted-foreground">Available Studios</div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-gradient-card border-border/40">
-              <CardContent className="p-6">
-                <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 rounded-full bg-primary-glow/10 flex items-center justify-center">
-                    <Zap className="h-6 w-6 text-primary-glow" />
-                  </div>
-                  <div>
-                    <div className="text-2xl font-bold text-foreground">100</div>
-                    <div className="text-sm text-muted-foreground">Credits Remaining</div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
         </div>
       </div>
     </div>
