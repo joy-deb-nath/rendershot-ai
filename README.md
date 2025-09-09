@@ -21,6 +21,13 @@
 - **👥 Virtual Models Studio** - Generate lifestyle shots with AI models showcasing your products across diverse demographics
 - **📱 UGC-Style Studio** - Create authentic user-generated content that converts with natural, engaging product photography
 
+## 🎨 Template Library
+
+- **Ad Poster** - Premium ad poster with dramatic lighting
+- **Miniature on Desk** - Realistic 1/7‑scale miniature on a desk
+- **Retro Ad Poster** - Authentic retro-era advertising style
+- **Miniature in Hand** - photo of a hyper‑detailed miniature between fingers
+
 ### Key Capabilities
 
 - ✨ **One Photo, Infinite Possibilities** - Transform a single product photo into multiple professional visuals
@@ -29,13 +36,6 @@
 - 💰 **Cost Effective** - Reduce photography costs by up to 90%
 - 🎯 **No Design Experience Required** - Intuitive interface designed for everyone
 - 🔧 **Customizable Settings** - Fine-tune backgrounds, lighting, camera angles, and more
-
-## 🎨 Template Library
-
-- **Ad Poster** - Premium ad poster with dramatic lighting
-- **Miniature on Desk** - Realistic 1/7‑scale miniature on a desk
-- **Retro Ad Poster** - Authentic retro-era advertising style
-- **Miniature in Hand** - photo of a hyper‑detailed miniature between fingers
 
 ## 🛠️ Technology Stack
 
